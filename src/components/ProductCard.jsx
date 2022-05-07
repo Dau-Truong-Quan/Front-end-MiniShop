@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-import { Link } from "react-router-dom";
-
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { set } from "../redux/product-modal/productModalSlice";
 
@@ -16,19 +14,23 @@ const ProductCard = (props) => {
 
   return (
     <div className="product-card">
-      <Link to={`/catalog/${props.slug}`}>
-        <div className="product-card__image">
-          <img src={props.img01} alt="" />
-          <img src={props.img02} alt="" />
-        </div>
-        <h3 className="product-card__name">{props.name}</h3>
-        <div className="product-card__price">
-          {numberWithCommas(props.price)}
-          <span className="product-card__price__old">
-            <del>{numberWithCommas(399000)}</del>
-          </span>
-        </div>
-      </Link>
+      <div>
+        <Link to={`/catalog/${props.productId}`}>
+          <div className="product-card__image">
+            <img src={`http://localhost:8080/products/` + props.img01} alt="" />
+            <div className="product-card__to">
+              <div className="product-card__to__detail">Xem chi tiết</div>
+            </div>
+          </div>
+          <div className="product-card__name">{props.name}</div>
+          <div className="product-card__price">
+            {numberWithCommas(props.price)}
+            <span className="product-card__price__old">
+              <del>{numberWithCommas(399000)}</del>
+            </span>
+          </div>
+        </Link>
+      </div>
       <div className="product-card__btn">
         <Button
           size="sm"

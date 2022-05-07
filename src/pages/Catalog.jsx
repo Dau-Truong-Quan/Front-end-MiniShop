@@ -3,12 +3,9 @@ import React, { useCallback, useState, useEffect, useRef } from "react";
 import Helmet from "../components/Helmet";
 import CheckBox from "../components/CheckBox";
 
-import productData from "../assets/fake-data/products";
-import category from "../assets/fake-data/category";
-import colors from "../assets/fake-data/product-color";
-import size from "../assets/fake-data/product-size";
 import Button from "../components/Button";
 import InfinityList from "../components/InfinityList";
+import axios from "axios";
 
 const Catalog = () => {
   const initFilter = {
@@ -17,26 +14,33 @@ const Catalog = () => {
     size: [],
   };
 
-  const productList = productData.getAllProducts();
+  const [theLoai, setTheLoai] = React.useState(null);
 
-  const [products, setProducts] = useState(productList);
+  const [productLists, setProductLists] = React.useState(null);
+  const [listDefault, setListDefault] = React.useState(null);
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/product/all`).then((response) => {
+      setProductLists(response.data);
+      setListDefault(response.data);
+    });
+  }, []);
+  React.useEffect(() => {
+    axios.get(`http://localhost:8080/api/category/all`).then((response) => {
+      setTheLoai(response.data);
+    });
+  }, []);
 
   const [filter, setFilter] = useState(initFilter);
 
   const filterSelect = (type, checked, item) => {
+    console.log(item);
     if (checked) {
       switch (type) {
         case "CATEGORY":
           setFilter({
             ...filter,
-            category: [...filter.category, item.categorySlug],
+            category: [...filter.category, item.categoryId],
           });
-          break;
-        case "COLOR":
-          setFilter({ ...filter, color: [...filter.color, item.color] });
-          break;
-        case "SIZE":
-          setFilter({ ...filter, size: [...filter.size, item.size] });
           break;
         default:
       }
@@ -44,18 +48,10 @@ const Catalog = () => {
       switch (type) {
         case "CATEGORY":
           const newCategory = filter.category.filter(
-            (e) => e !== item.categorySlug
+            (e) => e !== item.categoryId
           );
           console.log(newCategory);
           setFilter({ ...filter, category: newCategory });
-          break;
-        case "COLOR":
-          const newColor = filter.color.filter((e) => e !== item.color);
-          setFilter({ ...filter, color: newColor });
-          break;
-        case "SIZE":
-          const newSize = filter.size.filter((e) => e !== item.size);
-          setFilter({ ...filter, size: newSize });
           break;
         default:
       }
@@ -65,28 +61,16 @@ const Catalog = () => {
   const clearFilter = () => setFilter(initFilter);
 
   const updateProducts = useCallback(() => {
-    let temp = productList;
+    let temp = listDefault;
 
     if (filter.category.length > 0) {
-      temp = temp.filter((e) => filter.category.includes(e.categorySlug));
+      temp = temp.filter((e) =>
+        filter.category.includes(e.category.categoryId)
+      );
     }
 
-    if (filter.color.length > 0) {
-      temp = temp.filter((e) => {
-        const check = e.colors.find((color) => filter.color.includes(color));
-        return check !== undefined;
-      });
-    }
-
-    if (filter.size.length > 0) {
-      temp = temp.filter((e) => {
-        const check = e.size.find((size) => filter.size.includes(size));
-        return check !== undefined;
-      });
-    }
-
-    setProducts(temp);
-  }, [filter, productList]);
+    setProductLists(temp);
+  }, [filter, listDefault]);
 
   useEffect(() => {
     updateProducts();
@@ -111,60 +95,24 @@ const Catalog = () => {
               danh mục sản phẩm
             </div>
             <div className="catalog__filter__widget__content">
-              {category.map((item, index) => (
-                <div
-                  key={index}
-                  className="catalog__filter__widget__content__item"
-                >
-                  <CheckBox
-                    label={item.display}
-                    onChange={(input) =>
-                      filterSelect("CATEGORY", input.checked, item)
-                    }
-                    checked={filter.category.includes(item.categorySlug)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="catalog__filter__widget">
-            <div className="catalog__filter__widget__title">màu sắc</div>
-            <div className="catalog__filter__widget__content">
-              {colors.map((item, index) => (
-                <div
-                  key={index}
-                  className="catalog__filter__widget__content__item"
-                >
-                  <CheckBox
-                    label={item.display}
-                    onChange={(input) =>
-                      filterSelect("COLOR", input.checked, item)
-                    }
-                    checked={filter.color.includes(item.color)}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="catalog__filter__widget">
-            <div className="catalog__filter__widget__title">kích cỡ</div>
-            <div className="catalog__filter__widget__content">
-              {size.map((item, index) => (
-                <div
-                  key={index}
-                  className="catalog__filter__widget__content__item"
-                >
-                  <CheckBox
-                    label={item.display}
-                    onChange={(input) =>
-                      filterSelect("SIZE", input.checked, item)
-                    }
-                    checked={filter.size.includes(item.size)}
-                  />
-                </div>
-              ))}
+              {theLoai != null ? (
+                theLoai.map((item, index) => (
+                  <div
+                    key={index}
+                    className="catalog__filter__widget__content__item"
+                  >
+                    <CheckBox
+                      label={item.name}
+                      onChange={(input) =>
+                        filterSelect("CATEGORY", input.checked, item)
+                      }
+                      checked={filter.category.includes(item.categoryId)}
+                    />
+                  </div>
+                ))
+              ) : (
+                <> </>
+              )}
             </div>
           </div>
 
@@ -182,7 +130,7 @@ const Catalog = () => {
           </Button>
         </div>
         <div className="catalog__content">
-          <InfinityList data={products} />
+          {productLists === null ? <></> : <InfinityList data={productLists} />}
         </div>
       </div>
     </Helmet>

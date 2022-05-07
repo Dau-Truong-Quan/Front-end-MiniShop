@@ -109,19 +109,29 @@ const ProductView = (props) => {
         <div className="product__images__list">
           <div
             className="product__images__list__item"
-            onClick={() => setPreviewImg(product.image01)}
+            onClick={() => setPreviewImg(product.image)}
           >
-            <img src={product.image01} alt="" />
+            <img
+              src={`http://localhost:8080/products/` + product.image}
+              alt=""
+            />
           </div>
           <div
             className="product__images__list__item"
-            onClick={() => setPreviewImg(product.image02)}
+            onClick={() => setPreviewImg(product.image)}
           >
-            <img src={product.image02} alt="" />
+            <img
+              src={`http://localhost:8080/products/` + product.image}
+              alt=""
+            />
           </div>
         </div>
         <div className="product__images__main">
-          <img className="img__show" src={previewImg} alt="" />
+          <img
+            className="img__show"
+            src={`http://localhost:8080/products/` + product.image}
+            alt=""
+          />
         </div>
         <div
           className={`product-description ${descriptionExpand ? "expand" : ""}`}
@@ -142,46 +152,13 @@ const ProductView = (props) => {
         </div>
       </div>
       <div className="product__info">
-        <h1 className="product__info__title">{product.title}</h1>
+        <h1 className="product__info__title">{product.name}</h1>
         <div className="product__info__item">
           <span className="product__info__item__price">
             {numberWithCommas(product.price)}
           </span>
         </div>
-        <div className="product__info__item">
-          <div className="product__info__item__title">Màu sắc</div>
-          <div className="product__info__item__list">
-            {product.colors.map((item, index) => (
-              <div
-                key={index}
-                className={`product__info__item__list__item ${
-                  color === item ? "active" : ""
-                }`}
-                onClick={() => setColor(item)}
-              >
-                <div className={`circle bg-${item}`}></div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="product__info__item">
-          <div className="product__info__item__title">Kích cỡ</div>
-          <div className="product__info__item__list">
-            {product.size.map((item, index) => (
-              <div
-                key={index}
-                className={`product__info__item__list__item ${
-                  size === item ? "active" : ""
-                }`}
-                onClick={() => setSize(item)}
-              >
-                <span className="product__info__item__list__item__size">
-                  {item}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+
         <div className="product__info__item">
           <div className="product__info__item__title">Số lượng</div>
           <div className="product__info__item__quantity">

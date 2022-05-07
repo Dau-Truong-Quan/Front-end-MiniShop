@@ -5,20 +5,32 @@ import Section, { SectionBody, SectionTitle } from "../components/Section";
 import Grid from "../components/Grid";
 import ProductCard from "../components/ProductCard";
 import ProductView from "../components/ProductView";
-
+import { useSelector, useDispatch } from "react-redux";
 import productData from "../assets/fake-data/products";
 
 const Product = (props) => {
-  const product = productData.getProductBySlug(props.match.params.slug);
+  // const product = productData.getProductBySlug(props.match.params.productId);
 
-  const relatedProducts = productData.getProducts(8);
+  const productSlug = useSelector((state) => state.productList.value);
+
+  const getProductBySlug = (slug) =>
+    productSlug.find((e) => e.productId == slug);
+
+  let product = getProductBySlug(props.match.params.slug);
+
+  // sản phẩm liên quan
+  let relatedProducts = productSlug;
+
+  relatedProducts = relatedProducts.filter(
+    (e) => product.category.categoryId === e.category.categoryId
+  );
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [product]);
 
   return (
-    <Helmet title={product.title}>
+    <Helmet title={product.name}>
       <Section>
         <SectionBody>
           <ProductView product={product} />
@@ -28,14 +40,15 @@ const Product = (props) => {
         <SectionTitle>Khám phá thêm</SectionTitle>
         <SectionBody>
           <Grid col={4} mdCol={2} smCol={1} gap={20}>
-            {relatedProducts.map((item, index) => (
+            {relatedProducts.slice(0, 8).map((item, index) => (
               <ProductCard
                 key={index}
-                img01={item.image01}
-                img02={item.image02}
-                name={item.title}
+                img01={item.image}
+                img02={item.image}
+                name={item.name}
                 price={Number(item.price)}
-                slug={item.slug}
+                slug={String(item.category.categoryId)}
+                productId={item.productId}
               />
             ))}
           </Grid>
