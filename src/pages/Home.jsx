@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Helmet from "../components/Helmet";
 import HeroSlider from "../components/HeroSlider";
 import Grid from "../components/Grid";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import policy from "../assets/fake-data/policy";
 import { setList } from "../redux/productLists/productListSlide";
