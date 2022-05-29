@@ -6,7 +6,7 @@ import Button from "./Button";
 
 const HeroSlider = (props) => {
   const data = props.data;
-  console.log(data);
+
   const timeOut = props.timeOut ? props.timeOut : 3000;
 
   const [activeSlide, setActiveSlide] = useState(0);

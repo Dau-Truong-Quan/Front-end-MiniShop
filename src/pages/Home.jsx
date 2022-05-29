@@ -18,7 +18,6 @@ const Home = () => {
   const dispatch = useDispatch();
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/product/all`).then((response) => {
-      console.log(response.data);
       setProductLists(response.data);
       dispatch(setList(response.data));
     });
@@ -27,12 +26,12 @@ const Home = () => {
   if (productLists != null) {
     heroSliderData = productLists;
 
-    heroSliderData = heroSliderData.filter((e) => 8 == e.category.categoryId);
-    console.log(heroSliderData);
+    heroSliderData = heroSliderData.filter((e) => 8 === e.category.categoryId);
+
     heroSliderData.forEach((element) => {
-      if (element.productId == 23) {
+      if (element.productId === 23) {
         element.color = "orange";
-      } else if (element.productId == 25) {
+      } else if (element.productId === 25) {
         element.color = "pink";
       } else {
         element.color = "blue";
@@ -80,11 +79,10 @@ const Home = () => {
                 .map((item, index) => (
                   <ProductCard
                     key={index}
-                    img01={item.image}
-                    img02={item.image}
+                    image={item.image}
                     name={item.name}
                     price={Number(item.price)}
-                    slug={String(item.category.categoryId)}
+                    categoryId={String(item.category.categoryId)}
                     productId={item.productId}
                   />
                 ))

@@ -72,13 +72,12 @@ const InfinityList = (props) => {
         {dataLoad.map((item, index) => (
           <ProductCard
             key={index}
-            img01={item.image}
-            img02={item.image}
+            image={item.image}
             name={item.name}
             price={Number((item.price * (100 - item.discount)) / 100)}
             priceOld={Number(item.price)}
             discount={Number(item.discount)}
-            slug={String(item.category.categoryId)}
+            categoryId={String(item.category.categoryId)}
             productId={item.productId}
           />
         ))}

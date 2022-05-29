@@ -24,7 +24,7 @@ const ProductView = (props) => {
       image02: null,
       categorySlug: "",
       colors: [],
-      slug: "",
+      name: "",
       size: [],
       description: "",
     };
@@ -69,37 +69,33 @@ const ProductView = (props) => {
   };
 
   const addToCart = () => {
-    if (check()) {
-      let newItem = {
-        slug: product.slug,
-        color: color,
-        size: size,
-        price: product.price,
-        quantity: quantity,
-      };
-      if (dispatch(addItem(newItem))) {
-        alert("Success");
-      } else {
-        alert("Fail");
-      }
+    let newItem = {
+      productId: product.productId,
+      name: product.name,
+      price: product.price,
+      quantity: quantity,
+      image: product.image,
+    };
+    if (dispatch(addItem(newItem))) {
+      alert("Success");
+    } else {
+      alert("Fail");
     }
   };
 
   const goToCart = () => {
-    if (check()) {
-      let newItem = {
-        slug: product.slug,
-        color: color,
-        size: size,
-        price: product.price,
-        quantity: quantity,
-      };
-      if (dispatch(addItem(newItem))) {
-        dispatch(remove());
-        props.history.push("/cart");
-      } else {
-        alert("Fail");
-      }
+    let newItem = {
+      productId: product.productId,
+      name: product.name,
+      price: product.price,
+      quantity: quantity,
+      image: product.image,
+    };
+    if (dispatch(addItem(newItem))) {
+      dispatch(remove());
+      props.history.push("/cart");
+    } else {
+      alert("Fail");
     }
   };
 

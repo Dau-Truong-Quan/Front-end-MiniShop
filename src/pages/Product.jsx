@@ -43,12 +43,11 @@ const Product = (props) => {
             {relatedProducts.slice(0, 8).map((item, index) => (
               <ProductCard
                 key={index}
-                img01={item.image}
-                img02={item.image}
+                productId={item.productId}
+                image={item.image}
                 name={item.name}
                 price={Number(item.price)}
                 slug={String(item.category.categoryId)}
-                productId={item.productId}
               />
             ))}
           </Grid>

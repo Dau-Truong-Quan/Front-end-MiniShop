@@ -10,6 +10,7 @@ export const productModalSlice = createSlice({
     reducers: {
         set: (state, action) => {                                                                                                                                                                                                                                                                                                       
             state.value = action.payload
+           
         },
         remove: (state) => {
             state.value = null

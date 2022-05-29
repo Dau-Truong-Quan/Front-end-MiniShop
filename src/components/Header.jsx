@@ -14,8 +14,8 @@ const mainNav = [
     path: "/catalog",
   },
   {
-    display: "Phụ kiện",
-    path: "/accessories",
+    display: "Login",
+    path: "/login",
   },
   {
     display: "Liên hệ",
