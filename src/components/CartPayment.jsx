@@ -63,24 +63,6 @@ const CartPayment = (props) => {
         </div>
       </div>
 
-      {/* body */}
-      <div className="KqH1Px">
-        <div className="lhwDvd Exv9ow c5Dezq">Tổng tiền hàng</div>
-        <div className="lhwDvd Uu2y3K c5Dezq">₫664.100</div>
-        <div className="lhwDvd Exv9ow B6k-vE">Phí vận chuyển</div>
-        <div className="lhwDvd Uu2y3K B6k-vE">₫54.200</div>
-        <div className="lhwDvd Exv9ow A4gPS6">Tổng thanh toán:</div>
-        <div className="lhwDvd +0tdvp Uu2y3K A4gPS6">₫718.300</div>
-        <div className="Ql2fz0">
-          <div className="FXKjae">
-            <div className="gLbpKW">Nhấn "Đặt hàng" để thanh toán</div>
-          </div>
-          <button className="stardust-button stardust-button--primary stardust-button--large gG-FcK _5POGMB">
-            Đặt hàng
-          </button>
-        </div>
-      </div>
-
       {/* <div class="KqH1Px">
         <div class="lhwDvd Exv9ow c5Dezq">Tổng tiền hàng</div>
         <div class="lhwDvd Uu2y3K c5Dezq">₫664.100</div>

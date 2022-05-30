@@ -20,10 +20,7 @@ const Cart = () => {
     let loginData = JSON.parse(localStorage.getItem("login"));
 
     axios
-      .get(`http://localhost:8080/api/cart`, {
-        params: {
-          userId: loginData.dataLogin.id,
-        },
+      .get(`http://localhost:8080/api/cart${loginData.dataLogin.id}`, {
         headers: {
           Authorization: "Bearer " + loginData.dataLogin.accessToken,
         },

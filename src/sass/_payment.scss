@@ -24,9 +24,14 @@
                     color: #ee4d2d;
                     fill: currentColor;
                 }
+                
             }
+
+            
+            
         }
         .payment_address_choose {
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             .Y3QA5S {
@@ -59,8 +64,135 @@
                 font-weight: 500;
                 cursor: pointer;
             }
+            
+            
+        }
+        
+        .stardust-button {
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 14px;
+            border: 1px solid rgba(0,0,0,.26);
+            background-color: #fff;
+            color: rgba(0,0,0,.87);
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-start;
+            border-radius: 2px!important;
+            color: #555;
+            text-transform: capitalize;
+            outline: none;
+            svg {
+                fill: #555;
+                margin-right: 10px;
+            }
+            ._5qwP-1 {
+                width: 12px;
+                fill: #555;
+                margin-right: 5px;
+            }
         }
     }
+
+    .payment_address_groupbutton{
+        display: flex;
+        button:first-child{
+            margin: 0px 15px;
+        }
+        button:last-child{
+            width: 100px;
+            height: 40px;
+            
+        }
+    }
+
+    .stardust-button {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-self: flex-start;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,.09);
+        
+        border-radius: 2px!important;
+        color: #555;
+        text-transform: capitalize;
+        outline: none;
+    }
+    .stardust-button--primary {
+        background: #ee4d2d !important;
+        color: #fff !important;
+        padding: 10px 24px;
+        width: 150px;
+        height: 40px;
+    }
+    
+
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      
+      /* Hide the browser's default radio button */
+      .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+      
+      /* Create a custom radio button */
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+        border-radius: 50%;
+      }
+      
+      /* On mouse-over, add a grey background color */
+      .container:hover input ~ .checkmark {
+        background-color: #ccc;
+      }
+      
+      /* When the radio button is checked, add a blue background */
+      .container input:checked ~ .checkmark {
+        background-color: #2196F3;
+      }
+      
+      /* Create the indicator (the dot/circle - hidden when not checked) */
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      
+      /* Show the indicator (dot/circle) when checked */
+      .container input:checked ~ .checkmark:after {
+        display: block;
+      }
+      
+      /* Style the indicator (dot/circle) */
+      .container .checkmark:after {
+           top: 6px;
+          left: 6px;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: white;
+      }
 
 }
 
@@ -68,7 +200,7 @@
     .header__list{
         height: 50px;
         padding: 24px 30px 0;
-        
+        font-size: 1.25rem;
 
         border-radius: 3px;
         display: flex;
@@ -81,6 +213,9 @@
     .obwca8 {
         flex: 2;
         
+    }
+    .HTDM2R_qualiti{
+       
     }
     .HTDM2R {
         flex: 1;

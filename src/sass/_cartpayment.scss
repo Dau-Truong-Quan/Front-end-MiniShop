@@ -201,7 +201,8 @@
             flex: 1;
            
         }
-        ._8ZMqxt .stardust-button {
+        
+        .stardust-button {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -214,9 +215,12 @@
             text-transform: capitalize;
             outline: none;
         }
-        ._8ZMqxt .stardust-button--primary {
+        .stardust-button--primary {
             background: #ee4d2d;
             color: #fff;
+            padding: 10px 24px;
+            width: 210px;
+            height: 40px;
         }
     }
     
