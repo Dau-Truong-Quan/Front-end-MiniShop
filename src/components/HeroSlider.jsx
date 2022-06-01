@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-import Button from "./Button";
+import ButtonCustom from "./ButtonCustom";
 
 const HeroSlider = (props) => {
   const data = props.data;
@@ -80,9 +80,9 @@ const HeroSliderItem = (props) => (
       </div>
       <div className="hero-slider__item__info__btn">
         <Link to={`/catalog/${props.item.productId}`}>
-          <Button backgroundColor={props.item.color} icon="bx bx-cart">
+          <ButtonCustom backgroundColor={props.item.color} icon="bx bx-cart">
             xem chi tiết
-          </Button>
+          </ButtonCustom>
         </Link>
       </div>
     </div>

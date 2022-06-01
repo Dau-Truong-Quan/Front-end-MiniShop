@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import { set } from "../redux/product-modal/productModalSlice";
 
-import Button from "./Button";
+import ButtonCustom from "./ButtonCustom";
 
 import numberWithCommas from "../utils/numberWithCommas";
 
@@ -32,14 +32,14 @@ const ProductCard = (props) => {
         </Link>
       </div>
       <div className="product-card__btn">
-        <Button
+        <ButtonCustom
           size="sm"
           icon="bx bx-cart"
           animate={true}
           onClick={() => dispatch(set(props.productId))}
         >
           chọn mua
-        </Button>
+        </ButtonCustom>
       </div>
     </div>
   );

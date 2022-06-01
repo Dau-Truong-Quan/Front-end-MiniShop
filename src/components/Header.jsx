@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import logo from "../assets/images/LogoMiniShop.png";
+import AccountMenu from "../pages/AccountMenu";
 
 const mainNav = [
   {
@@ -89,7 +90,7 @@ const Header = () => {
               </Link>
             </div>
             <div className="header__menu__item header__menu__right__item">
-              <i className="bx bx-user"></i>
+              <AccountMenu />
             </div>
           </div>
         </div>

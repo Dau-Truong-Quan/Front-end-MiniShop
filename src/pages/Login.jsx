@@ -1,13 +1,37 @@
 import axios from "axios";
-import React from "react";
+import * as React from "react";
 import Helmet from "../components/Helmet";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+
+import Alert from "@mui/material/Alert";
 
 export default function Login() {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [login, setLogin] = React.useState(false);
   const [store, setStore] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
+  const [openError, setOpenError] = React.useState(false);
+  const handleClose = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpen(false);
+  };
+  const handleCloseError = (reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+  };
+  const handleClick = () => {
+    setOpen(true);
+  };
   const loginRequest = () => {
     axios({
       method: "post",
@@ -17,15 +41,20 @@ export default function Login() {
         username,
         password,
       },
-    }).then((response) => {
-      localStorage.setItem(
-        "login",
-        JSON.stringify({
-          login: true,
-          dataLogin: response.data,
-        })
-      );
-    });
+    })
+      .then((response) => {
+        setOpen(true);
+        localStorage.setItem(
+          "login",
+          JSON.stringify({
+            login: true,
+            dataLogin: response.data,
+          })
+        );
+      })
+      .catch((error) => {
+        setOpenError(true);
+      });
   };
 
   return (
@@ -63,69 +92,30 @@ export default function Login() {
         </button>
       </div>
 
-      {/* <div id="login">
-        <div className="container">
-          <div
-            id="login-row"
-            className="row justify-content-center align-items-center"
+      <Stack spacing={2} sx={{ width: "100%" }}>
+        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
           >
-            <div id="login-column" className="col-md-6">
-              <div id="login-box" className="col-md-12">
-                <form id="login-form" className="form" action method="post">
-                  <h3 className="text-center text-info">Login</h3>
-                  <div className="form-group">
-                    <label htmlFor="username" className="text-info">
-                      Username:
-                    </label>
-                    <br />
-                    <input
-                      value={username}
-                      className="btn btn-info btn-md"
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="password" className="text-info">
-                      Password:
-                    </label>
-                    <br />
-                    <input
-                      value={password}
-                      className="btn btn-info btn-md"
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="remember-me" className="text-info">
-                      <span>Remember me</span>&nbsp;
-                      <span>
-                        <input
-                          id="remember-me"
-                          name="remember-me"
-                          type="checkbox"
-                        />
-                      </span>
-                    </label>
-                    <br />
-                    <input
-                      onClick={() => {
-                        loginRequest();
-                      }}
-                      className="btn btn-info btn-md"
-                      defaultValue="submit"
-                    />
-                  </div>
-                  <div id="register-link" className="text-right">
-                    <a href="#" className="text-info">
-                      Register here
-                    </a>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
+            Login succes!
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={openError}
+          autoHideDuration={6000}
+          onClose={handleCloseError}
+        >
+          <Alert
+            onClose={handleCloseError}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            Login false!
+          </Alert>
+        </Snackbar>
+      </Stack>
     </Helmet>
   );
 }

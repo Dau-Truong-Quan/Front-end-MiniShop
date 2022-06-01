@@ -18,7 +18,7 @@ const CartItem = (props) => {
 
   useEffect(() => {
     setItem(props.item);
-    console.log(item);
+
     setQuantity(props.item.quantity);
   }, [props.item]);
 
@@ -38,9 +38,9 @@ const CartItem = (props) => {
   // }
 
   const removeCartItem = () => {
-    console.log("removeCartItem");
     dispatch(removeItem(item));
   };
+  console.log(item);
 
   return (
     <div className="cart__item" ref={itemRef}>

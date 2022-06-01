@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const items =
   localStorage.getItem("cartItems") !== null
@@ -85,6 +86,25 @@ export const cartItemsSlice = createSlice({
             quantity: newItem.quantity,
           },
         ];
+
+        let loginData = JSON.parse(localStorage.getItem("login"));
+
+        axios
+          .request({
+            method: "PUT",
+            url: `http://localhost:8080/api/cart`,
+            headers: {
+              Authorization: "Bearer " + loginData.dataLogin.accessToken,
+            },
+            data: {
+              productId: newItem.productId,
+              userId: loginData.dataLogin.id,
+              quantity: newItem.quantity,
+            },
+          })
+          .then((response) => {
+            console.log("ok");
+          });
       }
       localStorage.setItem(
         "cartItems",
@@ -96,6 +116,7 @@ export const cartItemsSlice = createSlice({
       );
     },
     removeItem: (state, action) => {
+      let loginData = JSON.parse(localStorage.getItem("login"));
       const item = action.payload;
       state.value = state.value.filter((e) => e.name !== item.name);
       localStorage.setItem(
@@ -106,12 +127,28 @@ export const cartItemsSlice = createSlice({
           )
         )
       );
+
+      axios
+        .request({
+          method: "DELETE",
+          url: `http://localhost:8080/api/cart/${item.cartId}`,
+          headers: {
+            Authorization: "Bearer " + loginData.dataLogin.accessToken,
+          },
+        })
+        .then((response) => {
+          console.log("ok");
+        });
+    },
+    removeAllItem: (state) => {
+      state.value = [];
+      localStorage.removeItem("cartItems");
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setItem, addItem, removeItem, updateItem } =
+export const { setItem, addItem, removeItem, updateItem, removeAllItem } =
   cartItemsSlice.actions;
 
 export default cartItemsSlice.reducer;

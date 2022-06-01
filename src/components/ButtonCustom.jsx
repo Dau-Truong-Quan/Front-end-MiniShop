@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Button = (props) => {
+const ButtonCustom = (props) => {
   const bg = props.backgroundColor ? "bg-" + props.backgroundColor : "bg-main";
 
   const size = props.size ? "btn-" + props.size : "";
@@ -23,7 +23,7 @@ const Button = (props) => {
   );
 };
 
-Button.propTypes = {
+ButtonCustom.propTypes = {
   backgroundColor: PropTypes.string,
   size: PropTypes.string,
   icon: PropTypes.string,
@@ -31,4 +31,4 @@ Button.propTypes = {
   onclick: PropTypes.func,
 };
 
-export default Button;
+export default ButtonCustom;

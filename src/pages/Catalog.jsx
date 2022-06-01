@@ -3,7 +3,7 @@ import React, { useCallback, useState, useEffect, useRef } from "react";
 import Helmet from "../components/Helmet";
 import CheckBox from "../components/CheckBox";
 
-import Button from "../components/Button";
+import ButtonCustom from "../components/ButtonCustom";
 import InfinityList from "../components/InfinityList";
 import axios from "axios";
 
@@ -118,16 +118,16 @@ const Catalog = () => {
 
           <div className="catalog__filter__widget">
             <div className="catalog__filter__widget__content">
-              <Button size="sm" onClick={clearFilter}>
+              <ButtonCustom size="sm" onClick={clearFilter}>
                 xóa bộ lọc
-              </Button>
+              </ButtonCustom>
             </div>
           </div>
         </div>
         <div className="catalog__filter__toggle">
-          <Button size="sm" onClick={() => showHideFilter()}>
+          <ButtonCustom size="sm" onClick={() => showHideFilter()}>
             bộ lọc
-          </Button>
+          </ButtonCustom>
         </div>
         <div className="catalog__content">
           {productLists === null ? <></> : <InfinityList data={productLists} />}

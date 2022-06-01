@@ -5,12 +5,16 @@ import { Link } from "react-router-dom";
 
 import Helmet from "../components/Helmet";
 import CartItem from "../components/CartItem";
-import Button from "../components/Button";
+import ButtonCustom from "../components/ButtonCustom";
 
 import productData from "../assets/fake-data/products";
 import numberWithCommas from "../utils/numberWithCommas";
 import axios from "axios";
-import { addItem, setItem } from "../redux/shopping-cart/cartItemsSlide";
+import {
+  addItem,
+  removeAllItem,
+  setItem,
+} from "../redux/shopping-cart/cartItemsSlide";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -20,13 +24,16 @@ const Cart = () => {
     let loginData = JSON.parse(localStorage.getItem("login"));
 
     axios
-      .get(`http://localhost:8080/api/cart${loginData.dataLogin.id}`, {
+      .get(`http://localhost:8080/api/cart`, {
+        params: {
+          userId: loginData.dataLogin.id,
+        },
         headers: {
           Authorization: "Bearer " + loginData.dataLogin.accessToken,
         },
       })
       .then((response) => {
-        console.log(response.data);
+        dispatch(removeAllItem());
         response.data.map((item, index) => {
           let newItem = {
             cartId: item.cartId,
@@ -36,14 +43,16 @@ const Cart = () => {
             quantity: item.quantity,
             image: item.product.image,
           };
-          // console.log(newItem);
-          dispatch(setItem(newItem));
+
+          dispatch(addItem(newItem));
         });
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      })
+      .catch((eror) => {
+        console.log("no");
       });
   }, []);
 
-  console.log(cartItems);
   const [totalProducts, setTotalProducts] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(0);
@@ -73,11 +82,11 @@ const Cart = () => {
           </div>
           <div className="cart__info__btn">
             <Link to="/payment">
-              <Button size="block">Đặt hàng</Button>
+              <ButtonCustom size="block">Đặt hàng</ButtonCustom>
             </Link>
 
             <Link to="/catalog">
-              <Button size="block">Tiếp tục mua hàng</Button>
+              <ButtonCustom size="block">Tiếp tục mua hàng</ButtonCustom>
             </Link>
           </div>
         </div>

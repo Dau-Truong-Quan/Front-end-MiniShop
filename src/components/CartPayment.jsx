@@ -16,7 +16,7 @@ const CartPayment = (props) => {
 
   useEffect(() => {
     setItem(props.item);
-    console.log(item);
+
     setQuantity(props.item.quantity);
   }, [props.item]);
 
@@ -62,32 +62,6 @@ const CartPayment = (props) => {
           </div>
         </div>
       </div>
-
-      {/* <div class="KqH1Px">
-        <div class="lhwDvd Exv9ow c5Dezq">Tổng tiền hàng</div>
-        <div class="lhwDvd Uu2y3K c5Dezq">₫664.100</div>
-        <div class="lhwDvd Exv9ow B6k-vE">Phí vận chuyển</div>
-        <div class="lhwDvd Uu2y3K B6k-vE">₫54.200</div>
-        <div class="lhwDvd Exv9ow A4gPS6">Tổng thanh toán:</div>
-        <div class="lhwDvd +0tdvp Uu2y3K A4gPS6">₫718.300</div>
-        <div class="Ql2fz0">
-          <div class="FXKjae">
-            <div class="gLbpKW">
-              Nhấn "Đặt hàng" đồng nghĩa với việc bạn đồng ý tuân theo{" "}
-              <a
-                href="https://shopee.vn/legaldoc/policies/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Điều khoản Shopee
-              </a>
-            </div>
-          </div>
-          <button class="stardust-button stardust-button--primary stardust-button--large gG-FcK _5POGMB">
-            Đặt hàng
-          </button>
-        </div>
-      </div> */}
     </>
   );
 };

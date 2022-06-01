@@ -8,8 +8,9 @@ import { useDispatch } from "react-redux";
 import { addItem } from "../redux/shopping-cart/cartItemsSlide";
 import { remove } from "../redux/product-modal/productModalSlice";
 
-import Button from "./Button";
 import numberWithCommas from "../utils/numberWithCommas";
+import ButtonCustom from "./ButtonCustom";
+import axios from "axios";
 
 const ProductView = (props) => {
   const dispatch = useDispatch();
@@ -69,18 +70,24 @@ const ProductView = (props) => {
   };
 
   const addToCart = () => {
-    let newItem = {
-      productId: product.productId,
-      name: product.name,
-      price: product.price,
-      quantity: quantity,
-      image: product.image,
-    };
-    if (dispatch(addItem(newItem))) {
-      alert("Success");
-    } else {
-      alert("Fail");
-    }
+    let loginData = JSON.parse(localStorage.getItem("login"));
+
+    axios
+      .request({
+        method: "POST",
+        url: `http://localhost:8080/api/cart`,
+        headers: {
+          Authorization: "Bearer " + loginData.dataLogin.accessToken,
+        },
+        data: {
+          productId: product.productId,
+          userId: loginData.dataLogin.id,
+          quantity: quantity,
+        },
+      })
+      .then((response) => {
+        console.log("ok");
+      });
   };
 
   const goToCart = () => {
@@ -138,12 +145,12 @@ const ProductView = (props) => {
             dangerouslySetInnerHTML={{ __html: product.description }}
           ></div>
           <div className="product-description__toggle">
-            <Button
+            <ButtonCustom
               size="sm"
               onClick={() => setDescriptionExpand(!descriptionExpand)}
             >
               {descriptionExpand ? "Thu gọn" : "Xem thêm"}
-            </Button>
+            </ButtonCustom>
           </div>
         </div>
       </div>
@@ -176,8 +183,8 @@ const ProductView = (props) => {
           </div>
         </div>
         <div className="product__info__item">
-          <Button onClick={() => addToCart()}>thêm vào giỏ</Button>
-          <Button onClick={() => goToCart()}>mua ngay</Button>
+          <ButtonCustom onClick={() => addToCart()}>thêm vào giỏ</ButtonCustom>
+          <ButtonCustom onClick={() => goToCart()}>mua ngay</ButtonCustom>
         </div>
       </div>
       <div
@@ -191,12 +198,12 @@ const ProductView = (props) => {
           dangerouslySetInnerHTML={{ __html: product.description }}
         ></div>
         <div className="product-description__toggle">
-          <Button
+          <ButtonCustom
             size="sm"
             onClick={() => setDescriptionExpand(!descriptionExpand)}
           >
             {descriptionExpand ? "Thu gọn" : "Xem thêm"}
-          </Button>
+          </ButtonCustom>
         </div>
       </div>
     </div>

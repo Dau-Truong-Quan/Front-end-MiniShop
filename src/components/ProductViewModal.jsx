@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import ProductView from "./ProductView";
 
-import Button from "./Button";
+import ButtonCustom from "./ButtonCustom";
 
 import { remove } from "../redux/product-modal/productModalSlice";
 import { logDOM } from "@testing-library/react";
@@ -30,9 +30,9 @@ const ProductViewModal = () => {
       <div className="product-view__modal__content">
         <ProductView product={product} />
         <div className="product-view__modal__content__close">
-          <Button size="sm" onClick={() => dispatch(remove())}>
+          <ButtonCustom size="sm" onClick={() => dispatch(remove())}>
             đóng
-          </Button>
+          </ButtonCustom>
         </div>
       </div>
     </div>
