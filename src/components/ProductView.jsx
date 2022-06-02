@@ -11,6 +11,8 @@ import { remove } from "../redux/product-modal/productModalSlice";
 import numberWithCommas from "../utils/numberWithCommas";
 import ButtonCustom from "./ButtonCustom";
 import axios from "axios";
+import BasicRating from "./BasicRating";
+import { Rating, Typography } from "@mui/material";
 
 const ProductView = (props) => {
   const dispatch = useDispatch();
@@ -156,6 +158,11 @@ const ProductView = (props) => {
       </div>
       <div className="product__info">
         <h1 className="product__info__title">{product.name}</h1>
+        <div>
+          <Typography component="legend">Tổng đánh giá</Typography>
+          <Rating name="read-only" value={5} readOnly />
+        </div>
+
         <div className="product__info__item">
           <span className="product__info__item__price">
             {numberWithCommas(product.price)}

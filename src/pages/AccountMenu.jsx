@@ -11,10 +11,12 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { Link } from "react-router-dom";
 
 export default function AccountMenu() {
-  const [anchorEl, setAnchorEl] =
-    (React.useState < null) | (HTMLElement > null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  console.log(anchorEl);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -25,8 +27,6 @@ export default function AccountMenu() {
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
-        <Typography sx={{ minWidth: 100 }}>Contact</Typography>
-        <Typography sx={{ minWidth: 100 }}>Profile</Typography>
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -75,25 +75,20 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
+        <Link to="/account">
+          <MenuItem>
+            <Avatar /> My account
+          </MenuItem>
+        </Link>
         <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
+        <Link to="/cart">
+          <MenuItem>
+            <ListItemIcon>
+              <AddShoppingCartIcon fontSize="small" />
+            </ListItemIcon>
+            Đơn hàng
+          </MenuItem>
+        </Link>
         <MenuItem>
           <ListItemIcon>
             <Logout fontSize="small" />

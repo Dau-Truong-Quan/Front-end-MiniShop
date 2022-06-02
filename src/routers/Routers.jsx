@@ -6,6 +6,7 @@ import Cart from "../pages/Cart";
 import Product from "../pages/Product";
 import Login from "../pages/Login";
 import Payment from "../pages/Payment";
+import Account from "../pages/Account";
 
 const router = () => {
   return (
@@ -17,6 +18,7 @@ const router = () => {
         <Route path="/cart" component={Cart} />
         <Route path="/login" component={Login} />
         <Route path="/payment" component={Payment} />
+        <Route path="/account" component={Account} />
       </Switch>
     </div>
   );
