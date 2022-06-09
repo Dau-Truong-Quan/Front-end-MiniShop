@@ -1,0 +1,123 @@
+.order__view{
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: rgba(9, 30, 66, 0.082) 0px 0.5px 0.5px, rgba(9, 30, 66, 0.13) 0px 0px 0.5px 0.5px;
+    padding: 40px 20px;
+    
+    &__header{
+        display: flex;
+        justify-content: right;
+        color: #26aa99;
+        .MuiListItemIcon-root {
+            
+            min-width: 30px;
+       
+        }
+        margin-right: 13px;
+       
+    }
+    .border__seapare {
+        margin: 15px;
+        border-bottom: 1px solid rgba(0,0,0,.09);
+    }
+
+    &__body{
+        display: flex;
+        margin: 10px 10px;
+        &__image{
+            img{
+                height: 80px;
+                width: 80px;
+            }
+            margin-right: 10px;
+        }
+        &__content{
+            margin-right: 200px;
+        }
+        &__price{
+            display: flex;
+            margin-left: auto; 
+margin-right: 0;
+            align-items: center;
+            div:nth-child(2){
+                margin-left: 15px;
+                color:  #ee4d2d !important;;
+            }
+        }
+    }
+
+    &__footer{
+        
+        &__totalprice{
+            display: flex;
+            margin-right: 15px;
+        justify-content: right;
+        .MuiListItemIcon-root {
+           
+            min-width: 30px;
+    
+        }
+        }
+        &__button{
+            margin-right: 15px;
+            margin-top: 20px;
+            display: flex;
+        justify-content: right;
+        button:nth-child(2){
+            margin-left: 20px;
+        }
+        .stardust-button {
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 14px;
+            border: 1px solid rgba(0,0,0,.26);
+            background-color: #fff;
+            color: rgba(0,0,0,.87);
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-start;
+            border-radius: 2px!important;
+            color: #555;
+            text-transform: capitalize;
+            outline: none;
+            svg {
+                fill: #555;
+                margin-right: 10px;
+            }
+            ._5qwP-1 {
+                width: 12px;
+                fill: #555;
+                margin-right: 5px;
+            }
+        }
+
+        .stardust-button {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: flex-start;
+            background: #fff;
+            border: 1px solid rgba(0,0,0,.09);
+            
+            border-radius: 2px!important;
+            color: #555;
+            text-transform: capitalize;
+            outline: none;
+        }
+        .stardust-button--primary {
+            background: #ee4d2d !important;
+            color: #fff !important;
+            padding: 10px 24px;
+            width: 150px;
+            height: 40px;
+        }
+        }
+    }
+}
+.MuiTabs-flexContainer{
+    display: flex;
+    justify-content: space-around;
+}

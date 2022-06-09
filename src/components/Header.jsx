@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
 
 import { Link, useLocation } from "react-router-dom";
-
+import ListItemIcon from "@mui/material/ListItemIcon";
 import logo from "../assets/images/LogoMiniShop.png";
 import AccountMenu from "../pages/AccountMenu";
-
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import SearchIcon from "@mui/icons-material/Search";
 const mainNav = [
   {
     display: "Trang chủ",
@@ -13,10 +14,6 @@ const mainNav = [
   {
     display: "Sản phẩm",
     path: "/catalog",
-  },
-  {
-    display: "Login",
-    path: "/login",
   },
   {
     display: "Liên hệ",
@@ -47,6 +44,7 @@ const Header = () => {
   }, []);
 
   const menuLeft = useRef(null);
+  let loginData = JSON.parse(localStorage.getItem("login"));
 
   const menuToggle = () => menuLeft.current.classList.toggle("active");
 
@@ -82,15 +80,34 @@ const Header = () => {
           </div>
           <div className="header__menu__right">
             <div className="header__menu__item header__menu__right__item">
-              <i className="bx bx-search"></i>
+              <ListItemIcon>
+                <SearchIcon fontSize="large" />
+              </ListItemIcon>
             </div>
             <div className="header__menu__item header__menu__right__item">
               <Link to="/cart">
-                <i className="bx bx-shopping-bag"></i>
+                <ListItemIcon>
+                  <AddShoppingCartIcon fontSize="large" />
+                </ListItemIcon>
               </Link>
             </div>
             <div className="header__menu__item header__menu__right__item">
-              <AccountMenu />
+              {loginData === null ? (
+                <div className="header__menu__item header__menu__right__item__link">
+                  <Link to="/login">
+                    <span className="header__menu__item header__menu__right__item__link___login">
+                      Đăng nhập
+                    </span>
+                  </Link>
+                  <Link to="/register">
+                    <span className="header__menu__item header__menu__right__item__link__register">
+                      Đăng kí
+                    </span>
+                  </Link>
+                </div>
+              ) : (
+                <AccountMenu />
+              )}
             </div>
           </div>
         </div>

@@ -2,7 +2,7 @@ import React from "react";
 import Helmet from "../components/Helmet";
 import HeroSlider from "../components/HeroSlider";
 import Grid from "../components/Grid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import policy from "../assets/fake-data/policy";
 import { setList } from "../redux/productLists/productListSlide";
@@ -15,6 +15,7 @@ import axios from "axios";
 
 const Home = () => {
   const [productLists, setProductLists] = React.useState(null);
+
   const dispatch = useDispatch();
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/product/all`).then((response) => {
@@ -22,6 +23,7 @@ const Home = () => {
       dispatch(setList(response.data));
     });
   }, []);
+
   let heroSliderData = [];
   if (productLists != null) {
     heroSliderData = productLists;
@@ -29,14 +31,15 @@ const Home = () => {
     heroSliderData = heroSliderData.filter((e) => 8 === e.category.categoryId);
 
     heroSliderData.forEach((element) => {
-      if (element.productId === 23) {
+      if (element.productId === 23 && element.color === undefined) {
         element.color = "orange";
-      } else if (element.productId === 25) {
+      } else if (element.productId === 25 && element.color === undefined) {
         element.color = "pink";
-      } else {
+      } else if (element.productId === 26 && element.color === undefined) {
         element.color = "blue";
       }
     });
+    console.log(heroSliderData);
   }
 
   return (

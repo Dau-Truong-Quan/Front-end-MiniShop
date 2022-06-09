@@ -7,6 +7,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import Alert from "@mui/material/Alert";
+import { useHistory } from "react-router-dom";
 
 export default function Login() {
   const [username, setUsername] = React.useState("");
@@ -15,6 +16,7 @@ export default function Login() {
   const [store, setStore] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [openError, setOpenError] = React.useState(false);
+  const history = useHistory();
   const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;

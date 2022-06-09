@@ -64,7 +64,7 @@ function Payment() {
   const handleChangeDistrict = (event) => {
     let loginData = JSON.parse(localStorage.getItem("login"));
     setDistrict(event.target.value);
-
+    console.log(event.target.value);
     axios
       .request({
         method: "GET",
@@ -250,7 +250,7 @@ function Payment() {
                   <DialogContent>
                     <DialogContent>
                       <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth={true}>
                           <InputLabel id="demo-simple-select-label">
                             Province
                           </InputLabel>
@@ -277,7 +277,7 @@ function Payment() {
 
                     <DialogContent>
                       <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth={true}>
                           <InputLabel id="demo-simple-select-label">
                             District
                           </InputLabel>
@@ -303,7 +303,7 @@ function Payment() {
                     </DialogContent>
                     <DialogContent>
                       <Box sx={{ minWidth: 120 }}>
-                        <FormControl fullWidth>
+                        <FormControl fullWidth={true}>
                           <InputLabel id="demo-simple-select-label">
                             Ward
                           </InputLabel>
@@ -335,7 +335,7 @@ function Payment() {
                         id="address"
                         label="Địa chỉ cụ thể"
                         type="input"
-                        fullWidth
+                        fullWidth={true}
                         variant="standard"
                         onChange={(event) => setAddress(event.target.value)}
                       />

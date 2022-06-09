@@ -16,7 +16,7 @@ import { Rating, Typography } from "@mui/material";
 
 const ProductView = (props) => {
   const dispatch = useDispatch();
-
+  console.log(props);
   let product = props.product;
 
   if (product === undefined)

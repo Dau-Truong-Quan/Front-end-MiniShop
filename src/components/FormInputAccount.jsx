@@ -56,14 +56,6 @@ function FormInputAccount() {
   };
   return (
     <div style={{ padding: 10, margin: "auto", maxWidth: 900 }}>
-      <CssBaseline />
-
-      <Typography variant="h5" align="left" component="h2" gutterBottom>
-        Hồ Sơ Của Tôi
-      </Typography>
-      <Typography variant="h6" align="left" component="h4" gutterBottom>
-        Quản lý thông tin hồ sơ để bảo mật tài khoản
-      </Typography>
       <Form
         onSubmit={onSubmit}
         initialValues={{ employed: true, stooge: "larry" }}
@@ -71,13 +63,19 @@ function FormInputAccount() {
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }}>
+              <Typography variant="h5" align="left" component="h2" gutterBottom>
+                Hồ Sơ Của Tôi
+              </Typography>
+              <Typography variant="h6" align="left" component="h4" gutterBottom>
+                Quản lý thông tin hồ sơ để bảo mật tài khoản
+              </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={8}>
-                  <Grid container alignItems="flex-start" spacing={2}>
+                  <Grid container spacing={2}>
                     <Grid item xs={6}>
                       <Field
-                        fullWidth
-                        required
+                        fullWidth={true}
+                        required={true}
                         name="firstName"
                         component={TextField}
                         type="text"
@@ -86,8 +84,8 @@ function FormInputAccount() {
                     </Grid>
                     <Grid item xs={6}>
                       <Field
-                        fullWidth
-                        required
+                        fullWidth={true}
+                        required={true}
                         name="lastName"
                         component={TextField}
                         type="text"
@@ -97,8 +95,8 @@ function FormInputAccount() {
                     <Grid item xs={12}>
                       <Field
                         name="email"
-                        fullWidth
-                        required
+                        fullWidth={true}
+                        required={true}
                         component={TextField}
                         type="email"
                         label="Email"
@@ -198,7 +196,7 @@ function FormInputAccount() {
                     </Grid>
                     <Grid item xs={12}>
                       <Field
-                        fullWidth
+                        fullWidth={true}
                         name="notes"
                         component={TextField}
                         multiline
@@ -207,7 +205,7 @@ function FormInputAccount() {
                     </Grid>
                     <Grid item xs={12}>
                       <Field
-                        fullWidth
+                        fullWidth={true}
                         name="city"
                         component={Select}
                         label="Select a City"

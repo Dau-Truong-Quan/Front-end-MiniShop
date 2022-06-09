@@ -83,6 +83,15 @@
                 @include tablet {
                     margin-left: 10px;
                 }
+                &__link___login{
+                    
+                    margin-right: 10px;
+                    padding-right: 10px;
+                    border-right: solid;    
+                }
+                span{
+                    font-size: 1.25rem;
+                }
             }
 
             @include mobile {

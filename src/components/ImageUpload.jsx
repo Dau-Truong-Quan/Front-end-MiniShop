@@ -38,6 +38,7 @@ import ReplayIcon from "@material-ui/icons/Replay";
 //Tabs
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import { message } from "antd";
 
 const imageGallery = [
   "https://raw.githubusercontent.com/dxyang/StyleTransfer/master/style_imgs/mosaic.jpg",
@@ -123,6 +124,7 @@ class ImageUploadCard extends React.Component {
     var file = event.target.files[0];
     const reader = new FileReader();
     var url = reader.readAsDataURL(file);
+    message.success("This is a success message");
     // const fd = new FormData();
     // fd.append("file", event.target.files[0]);
 

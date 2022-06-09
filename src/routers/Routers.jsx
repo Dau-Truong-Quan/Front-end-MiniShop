@@ -7,6 +7,8 @@ import Product from "../pages/Product";
 import Login from "../pages/Login";
 import Payment from "../pages/Payment";
 import Account from "../pages/Account";
+import SignInSide from "../components/Login/LoginForm";
+import RegisterForm from "../components/Register/RegisterForm";
 
 const router = () => {
   return (
@@ -16,7 +18,8 @@ const router = () => {
         <Route path="/catalog/:slug" component={Product} />
         <Route exact path="/catalog" component={Catalog} />
         <Route path="/cart" component={Cart} />
-        <Route path="/login" component={Login} />
+        <Route path="/login" component={SignInSide} />
+        <Route path="/register" component={RegisterForm} />
         <Route path="/payment" component={Payment} />
         <Route path="/account" component={Account} />
       </Switch>

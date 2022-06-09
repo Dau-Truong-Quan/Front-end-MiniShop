@@ -13,16 +13,21 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
-
+import { useHistory } from "react-router-dom";
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
-
+  const history = useHistory();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("login");
+    history.push(`/`);
   };
   return (
     <React.Fragment>
@@ -81,15 +86,12 @@ export default function AccountMenu() {
           </MenuItem>
         </Link>
         <Divider />
-        <Link to="/cart">
-          <MenuItem>
-            <ListItemIcon>
-              <AddShoppingCartIcon fontSize="small" />
-            </ListItemIcon>
-            Đơn hàng
-          </MenuItem>
-        </Link>
-        <MenuItem>
+
+        <MenuItem
+          onClick={() => {
+            handleLogout();
+          }}
+        >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
