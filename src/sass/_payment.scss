@@ -11,7 +11,7 @@
             .payment_address_content {
                 display: flex;
                 align-items: center;
-                font-size: 1.75rem;
+                font-size: 1.5rem;
                 color: #ee4d2d;
                 margin-bottom: 20px;
                 text-transform: capitalize;
@@ -23,6 +23,9 @@
                 .icon-location-marker {
                     color: #ee4d2d;
                     fill: currentColor;
+                }
+                &__title{
+
                 }
                 
             }
@@ -123,6 +126,7 @@
         outline: none;
     }
     .stardust-button--primary {
+        margin-top: 25px;
         background: #ee4d2d !important;
         color: #fff !important;
         padding: 10px 24px;

@@ -16,6 +16,11 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { message } from "antd";
 import StoreMallDirectoryIcon from "@mui/icons-material/StoreMallDirectory";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItem,
+  removeAllItem,
+} from "../../redux/shopping-cart/cartItemsSlide";
 function Copyright(props) {
   return (
     <Typography
@@ -38,6 +43,8 @@ const theme = createTheme();
 
 export default function SignInSide() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cartItems.value);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -59,6 +66,33 @@ export default function SignInSide() {
             dataLogin: response.data,
           })
         );
+        let loginData = JSON.parse(localStorage.getItem("login"));
+        axios
+          .get(`http://localhost:8080/api/cart`, {
+            params: {
+              userId: loginData.dataLogin.id,
+            },
+            headers: {
+              Authorization: "Bearer " + loginData.dataLogin.accessToken,
+            },
+          })
+          .then((response) => {
+            dispatch(removeAllItem());
+            response.data.map((item, index) => {
+              let newItem = {
+                cartId: item.cartId,
+                productId: item.product.productId,
+                name: item.product.name,
+                price: item.product.price,
+                quantity: item.quantity,
+                image: item.product.image,
+              };
+
+              dispatch(addItem(newItem));
+            });
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          })
+          .catch((eror) => {});
         history.push(`/`);
       })
       .catch((error) => {

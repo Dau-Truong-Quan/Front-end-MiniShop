@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { withRouter } from "react-router";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { addItem } from "../redux/shopping-cart/cartItemsSlide";
+import { addItem, removeAllItem } from "../redux/shopping-cart/cartItemsSlide";
 import { remove } from "../redux/product-modal/productModalSlice";
 
 import numberWithCommas from "../utils/numberWithCommas";
@@ -13,11 +13,26 @@ import ButtonCustom from "./ButtonCustom";
 import axios from "axios";
 import BasicRating from "./BasicRating";
 import { Rating, Typography } from "@mui/material";
+import { message } from "antd";
 
 const ProductView = (props) => {
   const dispatch = useDispatch();
-  console.log(props);
+  const cartItems = useSelector((state) => state.cartItems.value);
   let product = props.product;
+  const [listFeedback, setListFeedback] = React.useState(null);
+
+  React.useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/feedbacks`, {
+        params: {
+          productId: product?.productId,
+        },
+      })
+      .then((response) => {
+        setListFeedback(response.data);
+      })
+      .catch((eror) => {});
+  }, [product]);
 
   if (product === undefined)
     product = {
@@ -57,20 +72,6 @@ const ProductView = (props) => {
     setSize(undefined);
   }, [product]);
 
-  const check = () => {
-    if (color === undefined) {
-      alert("Vui lòng chọn màu sắc!");
-      return false;
-    }
-
-    if (size === undefined) {
-      alert("Vui lòng chọn kích cỡ!");
-      return false;
-    }
-
-    return true;
-  };
-
   const addToCart = () => {
     let loginData = JSON.parse(localStorage.getItem("login"));
 
@@ -87,9 +88,34 @@ const ProductView = (props) => {
           quantity: quantity,
         },
       })
+      .then((response) => {});
+
+    axios
+      .get(`http://localhost:8080/api/cart`, {
+        params: {
+          userId: loginData.dataLogin.id,
+        },
+        headers: {
+          Authorization: "Bearer " + loginData.dataLogin.accessToken,
+        },
+      })
       .then((response) => {
-        console.log("ok");
-      });
+        dispatch(removeAllItem());
+        response.data.map((item, index) => {
+          let newItem = {
+            cartId: item.cartId,
+            productId: item.product.productId,
+            name: item.product.name,
+            price: item.product.price,
+            quantity: item.quantity,
+            image: item.product.image,
+          };
+
+          dispatch(addItem(newItem));
+        });
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      })
+      .catch((eror) => {});
   };
 
   const goToCart = () => {
@@ -158,10 +184,26 @@ const ProductView = (props) => {
       </div>
       <div className="product__info">
         <h1 className="product__info__title">{product.name}</h1>
-        <div>
-          <Typography component="legend">Tổng đánh giá</Typography>
-          <Rating name="read-only" value={5} readOnly />
-        </div>
+
+        <span className="product__info__left__textL">
+          {listFeedback?.length > 0
+            ? listFeedback?.reduce((total, item) => total + item.vote, 0) /
+              listFeedback?.length
+            : ""}
+        </span>
+        <span className="product__info__left__textR">
+          <Rating
+            name="read-only"
+            value={
+              listFeedback?.reduce((total, item) => total + item.vote, 0) /
+              listFeedback?.length
+            }
+            readOnly
+          />
+        </span>
+        <span className="product__info__number__rate">
+          {listFeedback?.length} Đánh Giá
+        </span>
 
         <div className="product__info__item">
           <span className="product__info__item__price">

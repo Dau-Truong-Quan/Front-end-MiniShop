@@ -5,6 +5,8 @@
         flex-wrap: wrap;
     }
 
+   
+
     &__list {
         width: 60%;
 
@@ -108,5 +110,17 @@
                 }
             }
         }
+    }
+}
+.noItem{
+   div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+    &__button{
+        height: 30px;
+        width: 300px;
+        margin: 25px auto;
     }
 }

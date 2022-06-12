@@ -201,7 +201,6 @@ function Address() {
 
   const suaDiaChi = (index) => {
     let loginData = JSON.parse(localStorage.getItem("login"));
-    console.log(listaddress[index]);
 
     setProvince(listaddress[index].ward.district.province.provinceId - 1);
     axios
@@ -239,7 +238,9 @@ function Address() {
   return (
     <div className="address__account">
       <div className="address__account__header">
-        <div className="address__account__header__name">Địa Chỉ Của Tôi</div>
+        <div className="address__account__header__name">
+          {listaddress?.length > 0 ? "Địa Chỉ Của Tôi" : "Chưa có địa chỉ"}
+        </div>
         <div className="address__account__header__button">
           <button className="stardust-button vg-cf0" onClick={handleClickOpen}>
             <svg

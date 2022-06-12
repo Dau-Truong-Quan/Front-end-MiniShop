@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import * as React from "react";
 
 import { Link, useLocation } from "react-router-dom";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -6,6 +6,23 @@ import logo from "../assets/images/LogoMiniShop.png";
 import AccountMenu from "../pages/AccountMenu";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import SearchIcon from "@mui/icons-material/Search";
+
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
+import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { addItem, removeAllItem } from "../redux/shopping-cart/cartItemsSlide";
+
+const StyledBadge = styled(Badge)(({ theme }) => ({
+  "& .MuiBadge-badge": {
+    right: -3,
+    top: 0,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: "0 4px",
+  },
+}));
 const mainNav = [
   {
     display: "Trang chủ",
@@ -24,10 +41,16 @@ const mainNav = [
 const Header = () => {
   const { pathname } = useLocation();
   const activeNav = mainNav.findIndex((e) => e.path === pathname);
+  const cartItems = useSelector((state) => state.cartItems.value);
 
-  const headerRef = useRef(null);
+  const headerRef = React.useRef(null);
+  const [totalProducts, setTotalProducts] = React.useState(0);
+  let loginData = JSON.parse(localStorage.getItem("login"));
 
-  useEffect(() => {
+  React.useEffect(() => {
+    setTotalProducts(cartItems.reduce((total, item) => total + 1, 0));
+  }, [cartItems]);
+  React.useEffect(() => {
     window.addEventListener("scroll", () => {
       if (
         document.body.scrollTop > 80 ||
@@ -43,8 +66,7 @@ const Header = () => {
     };
   }, []);
 
-  const menuLeft = useRef(null);
-  let loginData = JSON.parse(localStorage.getItem("login"));
+  const menuLeft = React.useRef(null);
 
   const menuToggle = () => menuLeft.current.classList.toggle("active");
 
@@ -86,9 +108,11 @@ const Header = () => {
             </div>
             <div className="header__menu__item header__menu__right__item">
               <Link to="/cart">
-                <ListItemIcon>
-                  <AddShoppingCartIcon fontSize="large" />
-                </ListItemIcon>
+                <IconButton aria-label="cart">
+                  <StyledBadge badgeContent={totalProducts} color="secondary">
+                    <ShoppingCartIcon />
+                  </StyledBadge>
+                </IconButton>
               </Link>
             </div>
             <div className="header__menu__item header__menu__right__item">

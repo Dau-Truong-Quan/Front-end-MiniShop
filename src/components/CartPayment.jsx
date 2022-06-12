@@ -36,7 +36,6 @@ const CartPayment = (props) => {
   // }
 
   const removeCartItem = () => {
-    console.log("removeCartItem");
     dispatch(removeItem(item));
   };
   return (
@@ -53,9 +52,7 @@ const CartPayment = (props) => {
             {numberWithCommas(item.price)}
           </div>
           <div className="cart__payment__item__info__quantity">
-            <div className="">
-              <div className="">{quantity}</div>
-            </div>
+            <div className="">{quantity}</div>
           </div>
           <div className="cart__payment__item__info__price__total">
             {numberWithCommas(item.price * quantity)}

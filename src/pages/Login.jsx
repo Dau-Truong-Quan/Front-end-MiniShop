@@ -8,6 +8,8 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import Alert from "@mui/material/Alert";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem, removeAllItem } from "../redux/shopping-cart/cartItemsSlide";
 
 export default function Login() {
   const [username, setUsername] = React.useState("");
@@ -17,6 +19,7 @@ export default function Login() {
   const [open, setOpen] = React.useState(false);
   const [openError, setOpenError] = React.useState(false);
   const history = useHistory();
+
   const handleClose = (reason) => {
     if (reason === "clickaway") {
       return;

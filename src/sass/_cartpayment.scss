@@ -44,6 +44,18 @@
                     font-weight: 600;
                 }
             }
+            &__price {
+                @include flex(center, space-between);
+                padding: 10px 0;
+                font-size: 1.25rem;
+
+                span:nth-child(2) {
+                    font-size: 2rem;
+                    color: $main-color;
+                    font-weight: 600;
+                }
+            }
+           
         }
 
         &__btn {
@@ -51,6 +63,7 @@
                 margin-bottom: 20px;
             }
         }
+
     }
 
     &__item {
@@ -95,6 +108,9 @@
                 &__total{
                     margin-right: 48px;
                 }
+            }
+            &__quantity{
+                font-size: 1.25rem;
             }
         }
 

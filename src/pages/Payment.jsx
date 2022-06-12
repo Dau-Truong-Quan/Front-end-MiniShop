@@ -18,7 +18,7 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import numberWithCommas from "../utils/numberWithCommas";
 import { removeAllItem } from "../redux/shopping-cart/cartItemsSlide";
-
+import Container from "@mui/material/Container";
 function Payment() {
   const cartItems = useSelector((state) => state.cartItems.value);
   let list = [];
@@ -200,7 +200,7 @@ function Payment() {
   };
 
   return (
-    <div>
+    <Container maxWidth="false">
       <div className="payment">
         <div className="header__payment">
           <div className="payment_address">
@@ -218,7 +218,11 @@ function Payment() {
                   />
                 </svg>
               </div>
-              <div>Địa chỉ nhận hàng</div>
+              <div>
+                {listaddress?.length > 0
+                  ? " Địa chỉ nhận hàng"
+                  : "Chưa có địa chỉ"}
+              </div>
             </div>
             {chooseAddress ? (
               <div className="payment_address_add">
@@ -354,7 +358,7 @@ function Payment() {
           {chooseAddress ? (
             <div>
               {listaddress &&
-                listaddress.length &&
+                listaddress.length > 0 &&
                 listaddress.map((item, index) => {
                   return (
                     <div className="payment_address_choose" key={index}>
@@ -411,14 +415,14 @@ function Payment() {
               <div className="Y3QA5S">
                 <div className="_3yvPt8">
                   {listaddress &&
-                    listaddress.length &&
+                    listaddress.length > 0 &&
                     listaddress[indexChoose].user.firstName +
                       " - " +
                       listaddress[indexChoose].user.phone}
                 </div>
                 <div className="iXqine">
                   {listaddress &&
-                    listaddress.length &&
+                    listaddress.length > 0 &&
                     listaddress[indexChoose].specificAddress +
                       "," +
                       listaddress[indexChoose].ward.wardName +
@@ -433,7 +437,7 @@ function Payment() {
                 onClick={() => setChooseAddress(true)}
                 className="payment_change"
               >
-                Thay đổi
+                {listaddress?.length > 0 ? "Thay đổi" : "Thêm địa chỉ"}
               </div>
             </div>
           )}
@@ -497,7 +501,7 @@ function Payment() {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

@@ -19,6 +19,8 @@ import {
 import ImageUpload from "../components/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { setImage } from "../redux/uploadImage/uploadImage";
+import axios from "axios";
+import { message } from "antd";
 const galleryImageList = [
   "https://raw.githubusercontent.com/dxyang/StyleTransfer/master/style_imgs/mosaic.jpg",
   "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
@@ -32,7 +34,6 @@ const onSubmit = async (values) => {
   await sleep(300);
 
   let o = JSON.stringify(values, 0, 2);
-  console.log(o);
 };
 const validate = (values) => {
   const errors = {};
@@ -51,14 +52,63 @@ const validate = (values) => {
 function FormInputAccount() {
   const dispatch = useDispatch();
   const img = useSelector((state) => state.uploadImage.value);
+  let loginData = JSON.parse(localStorage.getItem("login"));
+  const [user, setUser] = React.useState();
   const handleClick = (imgage) => {
     dispatch(setImage(imgage));
   };
+  const handleSubmitForm = () => {
+    axios
+      .request({
+        method: "PUT",
+        url: `http://localhost:8080/api/users/edit-profile`,
+        headers: {
+          Authorization: "Bearer " + loginData.dataLogin.accessToken,
+        },
+        data: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          phone: user.phone,
+          image: img,
+        },
+      })
+      .then((response) => {
+        message.success(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  React.useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/users/${loginData.dataLogin.id}`, {
+        headers: {
+          Authorization: "Bearer " + loginData.dataLogin.accessToken,
+        },
+      })
+      .then((response) => {
+        setUser(response.data);
+        console.log(response.data);
+      })
+      .catch((eror) => {
+        console.log("no");
+      });
+  }, []);
+
   return (
     <div style={{ padding: 10, margin: "auto", maxWidth: 900 }}>
       <Form
         onSubmit={onSubmit}
-        initialValues={{ employed: true, stooge: "larry" }}
+        initialValues={{
+          firstName: user != null ? user.firstName : "",
+          lastName: user != null ? user.lastName : "",
+          email: user != null ? user.email : "",
+          phone: user != null ? user.phone : "",
+        }}
         validate={validate}
         render={({ handleSubmit, reset, submitting, pristine, values }) => (
           <form onSubmit={handleSubmit} noValidate>
@@ -103,26 +153,25 @@ function FormInputAccount() {
                       />
                     </Grid>
                     <Grid item xs={12}>
-                      <FormControlLabel
-                        label="Employed"
-                        control={
-                          <Field
-                            name="employed"
-                            component={Checkbox}
-                            type="checkbox"
-                          />
-                        }
+                      <Field
+                        name="phone"
+                        fullWidth={true}
+                        required={true}
+                        component={TextField}
+                        type="phone"
+                        label="Phone"
                       />
                     </Grid>
-                    <Grid item>
+
+                    {/* <Grid item>
                       <FormControl component="fieldset">
-                        <FormLabel component="legend">Best Stooge</FormLabel>
+                        <FormLabel component="legend">giới tính</FormLabel>
                         <RadioGroup row>
                           <FormControlLabel
-                            label="Larry"
+                            label="Name"
                             control={
                               <Field
-                                name="stooge"
+                                name="nam"
                                 component={Radio}
                                 type="radio"
                                 value="larry"
@@ -130,31 +179,20 @@ function FormInputAccount() {
                             }
                           />
                           <FormControlLabel
-                            label="Moe"
+                            label="Nữ"
                             control={
                               <Field
-                                name="stooge"
+                                name="nu"
                                 component={Radio}
                                 type="radio"
                                 value="moe"
                               />
                             }
                           />
-                          <FormControlLabel
-                            label="Curly"
-                            control={
-                              <Field
-                                name="stooge"
-                                component={Radio}
-                                type="radio"
-                                value="curly"
-                              />
-                            }
-                          />
                         </RadioGroup>
                       </FormControl>
-                    </Grid>
-                    <Grid item>
+                    </Grid> */}
+                    {/* <Grid item>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Sauces</FormLabel>
                         <FormGroup row>
@@ -193,31 +231,9 @@ function FormInputAccount() {
                           />
                         </FormGroup>
                       </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field
-                        fullWidth={true}
-                        name="notes"
-                        component={TextField}
-                        multiline
-                        label="Notes"
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field
-                        fullWidth={true}
-                        name="city"
-                        component={Select}
-                        label="Select a City"
-                        formControlProps={{ fullWidth: true }}
-                      >
-                        <MenuItem value="London">London</MenuItem>
-                        <MenuItem value="Paris">Paris</MenuItem>
-                        <MenuItem value="Budapest">
-                          A city with a very long Name
-                        </MenuItem>
-                      </Field>
-                    </Grid>
+                    </Grid> */}
+
+                    <Grid item xs={12}></Grid>
 
                     <Grid item style={{ marginTop: 16 }}>
                       <Button
@@ -233,8 +249,9 @@ function FormInputAccount() {
                       <Button
                         variant="contained"
                         color="primary"
-                        type="submit"
-                        disabled={submitting}
+                        onClick={() => {
+                          handleSubmitForm();
+                        }}
                       >
                         Submit
                       </Button>

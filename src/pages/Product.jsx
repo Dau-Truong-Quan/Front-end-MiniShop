@@ -8,6 +8,7 @@ import ProductView from "../components/ProductView";
 import { useSelector, useDispatch } from "react-redux";
 import productData from "../assets/fake-data/products";
 import BasicRating from "../components/BasicRating";
+import Feedback from "../components/Product/Feedback";
 
 const Product = (props) => {
   // const product = productData.getProductBySlug(props.match.params.productId);
@@ -35,7 +36,11 @@ const Product = (props) => {
       <Section>
         <SectionBody>
           <ProductView product={product} />
-          <BasicRating />
+        </SectionBody>
+      </Section>
+      <Section>
+        <SectionBody>
+          <Feedback product={product} />
         </SectionBody>
       </Section>
       <Section>

@@ -54,7 +54,20 @@
         flex-grow: 1;
         position: sticky;
         top: $header-shrink-height;
-
+        &__left__textL{
+            font-size: 1.65rem;
+            margin-right: 2px;
+            
+        }
+        &__left__textR{
+            font-size: 1.5rem;
+            border-right: 1px solid black;    
+            margin-right: 10px;
+            padding-right: 10px;
+        }
+        &__number__rate{
+            font-size: 1.5rem;
+        }
 
         @include mobile {
             position: relative;

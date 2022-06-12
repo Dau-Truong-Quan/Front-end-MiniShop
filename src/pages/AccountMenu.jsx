@@ -14,9 +14,12 @@ import Logout from "@mui/icons-material/Logout";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { removeAllItem } from "../redux/shopping-cart/cartItemsSlide";
+import { useDispatch } from "react-redux";
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const history = useHistory();
+  const dispatch = useDispatch();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -26,6 +29,7 @@ export default function AccountMenu() {
   };
 
   const handleLogout = () => {
+    dispatch(removeAllItem());
     localStorage.removeItem("login");
     history.push(`/`);
   };

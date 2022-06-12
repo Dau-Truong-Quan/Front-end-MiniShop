@@ -28,12 +28,9 @@ const OrderView = (props) => {
         },
       })
       .then((response) => {
-        console.log(response);
         setListOrder(response.data);
       })
-      .catch((eror) => {
-        console.log("no");
-      });
+      .catch((eror) => {});
   }, []);
 
   const handleChangeStatus = (idStatus, orderId) => {
