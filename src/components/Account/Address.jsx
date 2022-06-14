@@ -30,7 +30,7 @@ function Address() {
   const dispatch = useDispatch();
   const [wardAdd, setWardAdd] = React.useState("");
   const [indexChoose, setIndexChoose] = React.useState(0);
-
+  const [idAddress, setIdAddress] = React.useState(0);
   const [address, setAddress] = React.useState("");
 
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -89,16 +89,20 @@ function Address() {
   const handleAddressOder = () => {
     let loginData = JSON.parse(localStorage.getItem("login"));
 
+    console.log(listWard);
+    console.log(address);
+
     axios
       .request({
-        method: "POST",
+        method: "PUT",
         url: `http://localhost:8080/api/address/address/${loginData.dataLogin.id}`,
         headers: {
           Authorization: "Bearer " + loginData.dataLogin.accessToken,
         },
         data: {
+          addressId: idAddress != null ? idAddress : null,
           specificAddress: address,
-          ward: wardAdd,
+          ward: listWard[ward],
         },
       })
       .then((response) => {
@@ -113,6 +117,7 @@ function Address() {
           )
           .then((response) => {
             // setListaddress(response.data)
+            setIdAddress(null);
             response.data.map((item, index) => {
               list = [...list, item.specificAddress];
             });
@@ -181,6 +186,7 @@ function Address() {
       )
       .then((response) => {
         // setListaddress(response.data)
+        console.log(response.data);
         response.data.map((item, index) => {
           list = [...list, item.specificAddress];
         });
@@ -203,6 +209,7 @@ function Address() {
     let loginData = JSON.parse(localStorage.getItem("login"));
 
     setProvince(listaddress[index].ward.district.province.provinceId - 1);
+    setIdAddress(listaddress[index].addressId);
     axios
       .request({
         method: "GET",

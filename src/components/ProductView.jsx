@@ -85,10 +85,15 @@ const ProductView = (props) => {
         data: {
           productId: product.productId,
           userId: loginData.dataLogin.id,
-          quantity: quantity,
+          quantity: 10000000,
         },
       })
-      .then((response) => {});
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     axios
       .get(`http://localhost:8080/api/cart`, {

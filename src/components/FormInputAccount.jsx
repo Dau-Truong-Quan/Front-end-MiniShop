@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import { Form, Field } from "react-final-form";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
@@ -7,7 +7,6 @@ import {
   Paper,
   Link,
   Grid,
-  Button,
   CssBaseline,
   RadioGroup,
   FormLabel,
@@ -16,11 +15,15 @@ import {
   FormControl,
   FormControlLabel,
 } from "@material-ui/core";
-import ImageUpload from "../components/ImageUpload";
+import Button from "@mui/material/Button";
+import AppAvatar from "../components/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { setImage } from "../redux/uploadImage/uploadImage";
 import axios from "axios";
 import { message } from "antd";
+import IconButton from "@mui/material/IconButton";
+import Badge from "@mui/material/Badge";
+import EditIcon from "@mui/icons-material/Edit";
 const galleryImageList = [
   "https://raw.githubusercontent.com/dxyang/StyleTransfer/master/style_imgs/mosaic.jpg",
   "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
@@ -50,12 +53,44 @@ const validate = (values) => {
 };
 
 function FormInputAccount() {
+  const inputFile = useRef(null);
   const dispatch = useDispatch();
   const img = useSelector((state) => state.uploadImage.value);
+
   let loginData = JSON.parse(localStorage.getItem("login"));
   const [user, setUser] = React.useState();
+  const [imageUser, setImageUser] = React.useState("");
   const handleClick = (imgage) => {
     dispatch(setImage(imgage));
+  };
+  const handleUploadAvatar = () => {
+    inputFile.current.click();
+  };
+  const onChangeFile = (event) => {
+    event.preventDefault();
+    handleConfirmAddFile(event.target.files[0]);
+  };
+  const handleConfirmAddFile = (file) => {
+    let loginData = JSON.parse(localStorage.getItem("login"));
+    const formData = new FormData();
+    formData.append("file", file);
+    axios
+      .post("http://localhost:8080/api/image/user2", formData, {
+        headers: {
+          Authorization: "Bearer " + loginData.dataLogin.accessToken,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+
+          setImageUser(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const handleSubmitForm = () => {
     axios
@@ -92,7 +127,8 @@ function FormInputAccount() {
       })
       .then((response) => {
         setUser(response.data);
-        console.log(response.data);
+        setImageUser(response.data.image);
+        console.log(response.data.image);
       })
       .catch((eror) => {
         console.log("no");
@@ -163,76 +199,6 @@ function FormInputAccount() {
                       />
                     </Grid>
 
-                    {/* <Grid item>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">giới tính</FormLabel>
-                        <RadioGroup row>
-                          <FormControlLabel
-                            label="Name"
-                            control={
-                              <Field
-                                name="nam"
-                                component={Radio}
-                                type="radio"
-                                value="larry"
-                              />
-                            }
-                          />
-                          <FormControlLabel
-                            label="Nữ"
-                            control={
-                              <Field
-                                name="nu"
-                                component={Radio}
-                                type="radio"
-                                value="moe"
-                              />
-                            }
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </Grid> */}
-                    {/* <Grid item>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">Sauces</FormLabel>
-                        <FormGroup row>
-                          <FormControlLabel
-                            label="Ketchup"
-                            control={
-                              <Field
-                                name="sauces"
-                                component={Checkbox}
-                                type="checkbox"
-                                value="ketchup"
-                              />
-                            }
-                          />
-                          <FormControlLabel
-                            label="Mustard"
-                            control={
-                              <Field
-                                name="sauces"
-                                component={Checkbox}
-                                type="checkbox"
-                                value="mustard"
-                              />
-                            }
-                          />
-                          <FormControlLabel
-                            label="Salsa"
-                            control={
-                              <Field
-                                name="sauces"
-                                component={Checkbox}
-                                type="checkbox"
-                                value="salsa"
-                              />
-                            }
-                          />
-                        </FormGroup>
-                      </FormControl>
-                    </Grid> */}
-
                     <Grid item xs={12}></Grid>
 
                     <Grid item style={{ marginTop: 16 }}>
@@ -259,13 +225,37 @@ function FormInputAccount() {
                   </Grid>
                 </Grid>
                 <Grid item xs={4}>
-                  <ImageUpload
-                    cardName="Input Image"
-                    handleClick={handleClick}
-                    imageGallery={galleryImageList}
-                  />
+                  <Badge
+                    overlap="circular"
+                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                    badgeContent={
+                      <IconButton
+                        style={{ backgroundColor: "rgb(222 216 213)" }}
+                        aria-label="edit"
+                        size="medium"
+                        color="success"
+                        onClick={() => {
+                          handleUploadAvatar();
+                        }}
+                      >
+                        <EditIcon fontSize="inherit" />
+                      </IconButton>
+                    }
+                  >
+                    <AppAvatar
+                      url={`http://localhost:8080/users/${imageUser}`}
+                      imgSize={100}
+                    />
+                  </Badge>
                 </Grid>
               </Grid>
+              <input
+                type="file"
+                id="file"
+                ref={inputFile}
+                style={{ display: "none" }}
+                onChange={(event) => onChangeFile(event)}
+              />
             </Paper>
             <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
