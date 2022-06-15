@@ -7,6 +7,7 @@ import { updateItem, removeItem } from "../redux/shopping-cart/cartItemsSlide";
 import numberWithCommas from "../utils/numberWithCommas";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { message } from "antd";
 
 const CartItem = (props) => {
   const dispatch = useDispatch();
@@ -23,13 +24,54 @@ const CartItem = (props) => {
   }, [props.item]);
 
   const updateQuantity = (opt) => {
+    let loginData = JSON.parse(localStorage.getItem("login"));
     if (opt === "+") {
-      dispatch(updateItem({ ...item, quantity: quantity + 1 }));
+      axios
+        .request({
+          method: "PUT",
+          url: `http://localhost:8080/api/cart`,
+          headers: {
+            Authorization: "Bearer " + loginData.dataLogin.accessToken,
+          },
+          data: {
+            productId: item.productId,
+            userId: loginData.dataLogin.id,
+            quantity: item.quantity + 1,
+          },
+        })
+        .then((response) => {
+          dispatch(updateItem({ ...item, quantity: quantity + 1 }));
+        })
+        .catch((error) => {
+          message.error(error.response.data.message);
+        });
     }
     if (opt === "-") {
-      dispatch(
-        updateItem({ ...item, quantity: quantity - 1 === 0 ? 1 : quantity - 1 })
-      );
+      axios
+        .request({
+          method: "PUT",
+          url: `http://localhost:8080/api/cart`,
+          headers: {
+            Authorization: "Bearer " + loginData.dataLogin.accessToken,
+          },
+          data: {
+            productId: item.productId,
+            userId: loginData.dataLogin.id,
+            quantity: item.quantity - 1 === 0 ? 1 : item.quantity - 1,
+          },
+        })
+        .then((response) => {
+          dispatch(updateItem({ ...item, quantity: quantity + 1 }));
+          dispatch(
+            updateItem({
+              ...item,
+              quantity: quantity - 1 === 0 ? 1 : quantity - 1,
+            })
+          );
+        })
+        .catch((error) => {
+          message.error(error.response.data.message);
+        });
     }
   };
 

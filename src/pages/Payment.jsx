@@ -19,6 +19,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import numberWithCommas from "../utils/numberWithCommas";
 import { removeAllItem } from "../redux/shopping-cart/cartItemsSlide";
 import Container from "@mui/material/Container";
+import { useHistory } from "react-router-dom";
 function Payment() {
   const cartItems = useSelector((state) => state.cartItems.value);
   let list = [];
@@ -34,7 +35,7 @@ function Payment() {
   const [wardAdd, setWardAdd] = React.useState("");
   const [indexChoose, setIndexChoose] = React.useState(0);
   const [indexChooseOld, setIndexChooseOld] = React.useState(0);
-
+  const history = useHistory();
   const [address, setAddress] = React.useState("");
   const handleChangeProvince = (event) => {
     let loginData = JSON.parse(localStorage.getItem("login"));
@@ -196,6 +197,7 @@ function Payment() {
       .then((response) => {
         dispatch(removeAllItem());
         localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        history.push("/account");
       });
   };
 
@@ -226,7 +228,6 @@ function Payment() {
             </div>
             {chooseAddress ? (
               <div className="payment_address_add">
-                {" "}
                 <button
                   className="stardust-button vg-cf0"
                   onClick={handleClickOpen}

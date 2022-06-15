@@ -20,6 +20,7 @@ const Home = () => {
 
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/product/all`).then((response) => {
+      localStorage.setItem("listProduct", JSON.stringify(response.data));
       setProductLists(response.data);
       dispatch(setList(response.data));
     });

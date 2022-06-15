@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { message } from "antd";
 import axios from "axios";
 
 const items =
@@ -73,6 +74,7 @@ export const cartItemsSlice = createSlice({
     updateItem: (state, action) => {
       const newItem = action.payload;
       const item = state.value.filter((e) => e.name === newItem.name);
+
       if (item.length > 0) {
         state.value = state.value.filter((e) => e.name !== newItem.name);
         state.value = [
@@ -86,25 +88,6 @@ export const cartItemsSlice = createSlice({
             quantity: newItem.quantity,
           },
         ];
-
-        let loginData = JSON.parse(localStorage.getItem("login"));
-
-        axios
-          .request({
-            method: "PUT",
-            url: `http://localhost:8080/api/cart`,
-            headers: {
-              Authorization: "Bearer " + loginData.dataLogin.accessToken,
-            },
-            data: {
-              productId: newItem.productId,
-              userId: loginData.dataLogin.id,
-              quantity: newItem.quantity,
-            },
-          })
-          .then((response) => {
-            console.log("ok");
-          });
       }
       localStorage.setItem(
         "cartItems",

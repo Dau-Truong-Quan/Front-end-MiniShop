@@ -21,6 +21,8 @@ export default function AccountMenu() {
   const history = useHistory();
   const dispatch = useDispatch();
   const open = Boolean(anchorEl);
+  let loginData = JSON.parse(localStorage.getItem("login"));
+  console.log(loginData.dataLogin.email);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -45,7 +47,9 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              {loginData.dataLogin.email.substring(0, 1).toUpperCase()}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>

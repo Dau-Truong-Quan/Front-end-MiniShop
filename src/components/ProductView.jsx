@@ -85,42 +85,40 @@ const ProductView = (props) => {
         data: {
           productId: product.productId,
           userId: loginData.dataLogin.id,
-          quantity: 10000000,
+          quantity: quantity,
         },
       })
       .then((response) => {
-        console.log(response);
+        axios
+          .get(`http://localhost:8080/api/cart`, {
+            params: {
+              userId: loginData.dataLogin.id,
+            },
+            headers: {
+              Authorization: "Bearer " + loginData.dataLogin.accessToken,
+            },
+          })
+          .then((response) => {
+            dispatch(removeAllItem());
+            response.data.map((item, index) => {
+              let newItem = {
+                cartId: item.cartId,
+                productId: item.product.productId,
+                name: item.product.name,
+                price: item.product.price,
+                quantity: item.quantity,
+                image: item.product.image,
+              };
+
+              dispatch(addItem(newItem));
+            });
+            localStorage.setItem("cartItems", JSON.stringify(cartItems));
+          })
+          .catch((eror) => {});
       })
       .catch((error) => {
-        console.log(error);
+        message.error(error.response.data.message);
       });
-
-    axios
-      .get(`http://localhost:8080/api/cart`, {
-        params: {
-          userId: loginData.dataLogin.id,
-        },
-        headers: {
-          Authorization: "Bearer " + loginData.dataLogin.accessToken,
-        },
-      })
-      .then((response) => {
-        dispatch(removeAllItem());
-        response.data.map((item, index) => {
-          let newItem = {
-            cartId: item.cartId,
-            productId: item.product.productId,
-            name: item.product.name,
-            price: item.product.price,
-            quantity: item.quantity,
-            image: item.product.image,
-          };
-
-          dispatch(addItem(newItem));
-        });
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-      })
-      .catch((eror) => {});
   };
 
   const goToCart = () => {

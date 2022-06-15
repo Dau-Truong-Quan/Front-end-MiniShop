@@ -17,6 +17,7 @@ const Catalog = () => {
   const [theLoai, setTheLoai] = React.useState(null);
 
   const [productLists, setProductLists] = React.useState(null);
+
   const [listDefault, setListDefault] = React.useState(null);
   React.useEffect(() => {
     axios.get(`http://localhost:8080/api/product/all`).then((response) => {

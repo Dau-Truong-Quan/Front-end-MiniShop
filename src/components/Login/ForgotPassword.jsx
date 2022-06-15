@@ -9,7 +9,6 @@ import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
@@ -17,10 +16,12 @@ import { useHistory } from "react-router-dom";
 import { message } from "antd";
 import StoreMallDirectoryIcon from "@mui/icons-material/StoreMallDirectory";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
-  addItem,
-  removeAllItem,
-} from "../../redux/shopping-cart/cartItemsSlide";
+  setEmail,
+  setPhone,
+  setUsername,
+} from "../../redux/ForgotPassword/emailAndPhone";
 function Copyright(props) {
   return (
     <Typography
@@ -41,66 +42,33 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function ForgotPassword() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cartItems.value);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    axios({
-      method: "post",
-      url: "http://localhost:8080/api/auth/signin",
-      headers: {},
-      data: {
-        username: data.get("email"),
-        password: data.get("password"),
-      },
-    })
+    axios
+      .get(`http://localhost:8080/api/verify/${data.get("username")}`)
       .then((response) => {
-        message.success("Đăng nhập thành công");
-        localStorage.setItem(
-          "login",
-          JSON.stringify({
-            login: true,
-            dataLogin: response.data,
-          })
-        );
-        let loginData = JSON.parse(localStorage.getItem("login"));
-        axios
-          .get(`http://localhost:8080/api/cart`, {
-            params: {
-              userId: loginData.dataLogin.id,
-            },
-            headers: {
-              Authorization: "Bearer " + loginData.dataLogin.accessToken,
-            },
-          })
-          .then((response) => {
-            dispatch(removeAllItem());
-            response.data.map((item, index) => {
-              let newItem = {
-                cartId: item.cartId,
-                productId: item.product.productId,
-                name: item.product.name,
-                price: item.product.price,
-                quantity: item.quantity,
-                image: item.product.image,
-              };
-
-              dispatch(addItem(newItem));
-            });
-            localStorage.setItem("cartItems", JSON.stringify(cartItems));
-          })
-          .catch((eror) => {});
-        history.push(`/`);
+        console.log(response);
+        dispatch(setEmail(response.data.email));
+        dispatch(setPhone(response.data.phone));
+        dispatch(setUsername(data.get("username")));
+        history.push("/ChoooseEmailOrPhone");
       })
       .catch((error) => {
-        console.log(error);
-        message.error("Đăng nhập thất bại");
+        if (error.response) {
+          console.log(error.response);
+        } else if (error.request) {
+          console.log("request");
+        } else if (error.message) {
+          console.log("message");
+        }
+        message.error(error.response.data.message);
       });
   };
-
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -135,7 +103,7 @@ export default function SignInSide() {
               <StoreMallDirectoryIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Đăng nhập
+              Vui lòng nhập tên đăng nhập của bạn
             </Typography>
             <Box
               component="form"
@@ -144,50 +112,24 @@ export default function SignInSide() {
               sx={{ mt: 1 }}
             >
               <TextField
-                margin="normal"
+                margin="username"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
                 autoFocus
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Next
+                Sign In
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="/forgotPassword" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/register" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
