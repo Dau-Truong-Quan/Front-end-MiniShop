@@ -169,7 +169,7 @@ export default function ChoooseEmailOrPhone() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Next
               </Button>
             </Box>
           </Box>

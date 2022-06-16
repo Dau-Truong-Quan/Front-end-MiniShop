@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import ArticleIcon from "@mui/icons-material/Article";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import KeyIcon from "@mui/icons-material/Key";
 import {
   Avatar,
   Container,
@@ -17,6 +18,7 @@ import {
 import FormInputAccount from "../components/FormInputAccount";
 import LabTabs from "../components/LabTabs";
 import Address from "../components/Account/Address";
+import Password from "../components/Account/Password";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -57,6 +59,14 @@ function Account() {
                 <Typography variant="inherit">Tài khoản của tôi</Typography>
               </MenuItem>
             </Grid>
+            <Grid item xs={12}>
+              <MenuItem onClick={() => setTab("password")}>
+                <ListItemIcon>
+                  <KeyIcon fontSize="small" />
+                </ListItemIcon>
+                <Typography variant="inherit">Đổi mật khẩu</Typography>
+              </MenuItem>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item xs={10}>
@@ -66,8 +76,10 @@ function Account() {
                 <FormInputAccount />
               ) : tab === "order" ? (
                 <LabTabs />
-              ) : (
+              ) : tab === "address" ? (
                 <Address />
+              ) : (
+                <Password />
               )}
             </Grid>
           </Grid>

@@ -2,19 +2,7 @@ import React, { useRef } from "react";
 import ReactDOM from "react-dom";
 import { Form, Field } from "react-final-form";
 import { TextField, Checkbox, Radio, Select } from "final-form-material-ui";
-import {
-  Typography,
-  Paper,
-  Link,
-  Grid,
-  CssBaseline,
-  RadioGroup,
-  FormLabel,
-  MenuItem,
-  FormGroup,
-  FormControl,
-  FormControlLabel,
-} from "@material-ui/core";
+
 import Button from "@mui/material/Button";
 import AppAvatar from "../components/ImageUpload";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +12,7 @@ import { message } from "antd";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import EditIcon from "@mui/icons-material/Edit";
+import { Grid, Paper, Typography } from "@mui/material";
 const galleryImageList = [
   "https://raw.githubusercontent.com/dxyang/StyleTransfer/master/style_imgs/mosaic.jpg",
   "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
@@ -32,12 +21,7 @@ const galleryImageList = [
   "https://raw.githubusercontent.com/ShafeenTejani/fast-style-transfer/master/examples/dog.jpg",
   "http://r.ddmcdn.com/s_f/o_1/cx_462/cy_245/cw_1349/ch_1349/w_720/APL/uploads/2015/06/caturday-shutterstock_149320799.jpg",
 ];
-const onSubmit = async (values) => {
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-  await sleep(300);
 
-  let o = JSON.stringify(values, 0, 2);
-};
 const validate = (values) => {
   const errors = {};
   if (!values.firstName) {
@@ -92,7 +76,36 @@ function FormInputAccount() {
         console.log(err);
       });
   };
-  const handleSubmitForm = () => {
+  const handleSubmitForm = (event) => {
+    console.log(event.target);
+    // axios
+    //   .request({
+    //     method: "PUT",
+    //     url: `http://localhost:8080/api/users/edit-profile`,
+    //     headers: {
+    //       Authorization: "Bearer " + loginData.dataLogin.accessToken,
+    //     },
+    //     data: {
+    //       id: user.id,
+    //       username: user.username,
+    //       email: user.email,
+    //       firstName: user.firstName,
+    //       lastName: user.lastName,
+    //       phone: user.phone,
+    //       image: img,
+    //     },
+    //   })
+    //   .then((response) => {
+    //     message.success(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  };
+  const onSubmit = async (values) => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await sleep(300);
+
     axios
       .request({
         method: "PUT",
@@ -103,10 +116,10 @@ function FormInputAccount() {
         data: {
           id: user.id,
           username: user.username,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          phone: user.phone,
+          email: values.email,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          phone: values.phone,
           image: img,
         },
       })
@@ -114,7 +127,7 @@ function FormInputAccount() {
         message.success(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        message.error(error.response.data);
       });
   };
 
@@ -201,7 +214,7 @@ function FormInputAccount() {
 
                     <Grid item xs={12}></Grid>
 
-                    <Grid item style={{ marginTop: 16 }}>
+                    {/* <Grid item style={{ marginTop: 16 }}>
                       <Button
                         type="button"
                         variant="contained"
@@ -210,14 +223,15 @@ function FormInputAccount() {
                       >
                         Reset
                       </Button>
-                    </Grid>
+                    </Grid> */}
                     <Grid item style={{ marginTop: 16 }}>
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => {
-                          handleSubmitForm();
-                        }}
+                        // onClick={(event) => {
+                        //   handleSubmitForm(event);
+                        // }}
+                        type="submit"
                       >
                         Submit
                       </Button>
@@ -257,7 +271,6 @@ function FormInputAccount() {
                 onChange={(event) => onChangeFile(event)}
               />
             </Paper>
-            <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
         )}
       />

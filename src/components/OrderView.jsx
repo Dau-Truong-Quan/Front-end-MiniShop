@@ -64,9 +64,7 @@ const OrderView = (props) => {
             console.log(response);
             setListOrder(response.data);
           })
-          .catch((eror) => {
-            console.log("no");
-          });
+          .catch((eror) => {});
         message.success("Thành công");
       })
       .catch((error) => {

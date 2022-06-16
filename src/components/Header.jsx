@@ -32,10 +32,6 @@ const mainNav = [
     display: "Sản phẩm",
     path: "/catalog",
   },
-  {
-    display: "Liên hệ",
-    path: "/contact",
-  },
 ];
 
 const Header = () => {

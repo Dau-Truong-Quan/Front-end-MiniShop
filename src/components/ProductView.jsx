@@ -141,7 +141,7 @@ const ProductView = (props) => {
     <div className="product">
       <div className="product__images">
         <div className="product__images__list">
-          <div
+          {/* <div
             className="product__images__list__item"
             onClick={() => setPreviewImg(product.image)}
           >
@@ -149,7 +149,7 @@ const ProductView = (props) => {
               src={`http://localhost:8080/products/` + product.image}
               alt=""
             />
-          </div>
+          </div> */}
           <div
             className="product__images__list__item"
             onClick={() => setPreviewImg(product.image)}
